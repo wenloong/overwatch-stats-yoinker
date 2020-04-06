@@ -43,7 +43,7 @@ class _PlayerHomePageState extends State<PlayerHomePage> {
                     new Expanded(
                       child: new TextField(
                             decoration: InputDecoration(
-                              hintText: 'SEARCH A PLAYER',
+                              hintText: 'SEARCH PLAYER',
                               filled: true,
                               fillColor: Colors.white,
                               prefixIcon: Icon(Icons.search, color: Color(0xFF515151)),
@@ -54,6 +54,9 @@ class _PlayerHomePageState extends State<PlayerHomePage> {
                             onSubmitted: (String value) async {
                               print(value);
                             },
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            )
                       )
                     )
                   ],
