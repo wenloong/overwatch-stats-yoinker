@@ -16,6 +16,6 @@ Overwatch Stats Yoinkers is a mobile app that enables overwatch their players to
 - Oversmash API (https://github.com/filp/oversmash)
 
 ### Demo
-- Player Home Page
+- Player Home Page  
 ![HomePage Demo Image](/images/Home.png)
 
