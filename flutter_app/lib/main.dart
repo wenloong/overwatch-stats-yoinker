@@ -51,6 +51,9 @@ class _PlayerHomePageState extends State<PlayerHomePage> {
                               enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 2.0)),
                               focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFFFA9C1D), width: 2.0)),
                             ),
+                            onSubmitted: (String value) async {
+                              print(value);
+                            },
                       )
                     )
                   ],
