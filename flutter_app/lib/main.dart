@@ -26,8 +26,6 @@ class _PlayerHomePageState extends State<PlayerHomePage> {
   /*
     Gets the player data from the from the API asynchronously
   */
-  Map<String, dynamic> myMap;
-
   Future<String> getPlayerData(String playerName, String playerID) async {
     var playerDataURL = 'http://ow-api.com/v1/stats/pc/us/' + playerName + '-' + playerID + '/profile';
     http.Response response = await http.get(
@@ -40,7 +38,8 @@ class _PlayerHomePageState extends State<PlayerHomePage> {
     Map playerMap = jsonDecode(response.body);
     var player = Player.fromJson(playerMap);
 
-    myMap = playerMap;
+    print(playerDataURL);
+    print('${player.playerName}: SR - ${player.skillRating}');
   }
 
   final TextEditingController playerSearchController = new TextEditingController();
@@ -88,8 +87,6 @@ class _PlayerHomePageState extends State<PlayerHomePage> {
                   onSubmitted: (String str) {
                     setState(() {
                       bool hashDetected = false;
-
-                      print(myMap['name']);
 
                       // Set to empty
                       playerNameResult = "";

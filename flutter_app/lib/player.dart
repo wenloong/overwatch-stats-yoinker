@@ -3,15 +3,11 @@ class Player {
 
   final int skillRating;
 
-  final String icon;
-
-  Player(this.playerName, this.skillRating, this.icon);
+  Player(this.playerName, this.skillRating);
 
   Player.fromJson(Map<String, dynamic> json)
     : playerName = json['name'],
-      skillRating = json['rating'],
-      icon = json['icon'];
-
+      skillRating = json['rating'];
 
   Map<String, dynamic> toJson() =>
     {
