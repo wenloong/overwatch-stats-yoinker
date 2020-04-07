@@ -1,4 +1,8 @@
+import 'dart:io';
+import 'package:http/http.dart';
 import 'package:flutter/material.dart';
+
+
 
 void main() => runApp(StatsYoinker());
 
@@ -16,7 +20,12 @@ class PlayerHomePage extends StatefulWidget {
   _PlayerHomePageState createState() => _PlayerHomePageState();
 }
 
+class PlayerHomePageStats {
+
+}
+
 class _PlayerHomePageState extends State<PlayerHomePage> {
+  String serverResponse = 'Server response';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,4 +77,19 @@ class _PlayerHomePageState extends State<PlayerHomePage> {
       )
     );
   }
+
+  _makeGetRequest() async {
+    Response response = await get(_localhost());
+    setState(() {
+      serverResponse = response.body;
+    });
+  }
+
+  String _localhost() {
+    if (Platform.isAndroid)
+      return 'http://10.0.2.2:3000';
+    else // for iOS simulator
+      return 'http://localhost:3000';
+  }
+
 }
