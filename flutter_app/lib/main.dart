@@ -47,6 +47,7 @@ class _PlayerHomePageState extends State<PlayerHomePage> {
                           padding: EdgeInsets.only(left: 10),
                           child: Text('STATS YOINKER', style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w400, fontSize: 20, color: Color(0xFF515151))),
                         ),
+                        
                       ],
                     ),
                     new Expanded(
@@ -72,6 +73,16 @@ class _PlayerHomePageState extends State<PlayerHomePage> {
                 )
               )
             ],
+          ),
+          RaisedButton(
+            child: Text('Send request to server'),
+            onPressed: () {
+              _makeGetRequest();
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(serverResponse),
           ),
         ],
       )
