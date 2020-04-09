@@ -24,14 +24,15 @@ class PlayerHomePage extends StatefulWidget {
 
 class _PlayerHomePageState extends State<PlayerHomePage> {
   // State Management
+  var _isLoading = true;
   String _playerName;
-  String _playerSkillRating;
+  String _playerSkillRatingGeneral;
   String _playerIcon;
 
   /*
     Gets the player data from the from the API asynchronously
   */
-  Future<String> getPlayerData(String playerName, String playerID) async {
+  Future<String> getPlayerData(String playerName, String playerID, int playerSkillRatingGeneral) async {
     var playerDataURL = 'http://ow-api.com/v1/stats/pc/us/' + playerName + '-' + playerID + '/profile';
     http.Response response = await http.get(
       playerDataURL,
@@ -45,7 +46,7 @@ class _PlayerHomePageState extends State<PlayerHomePage> {
 
     setState(() {
       _playerName = '${player.playerName}';
-      _playerSkillRating = '${player.skillRating}';
+      _playerSkillRatingGeneral = '${player.skillRatingGeneral}';
       _playerIcon = '${player.icon}';
     });
   }
@@ -53,10 +54,25 @@ class _PlayerHomePageState extends State<PlayerHomePage> {
   final TextEditingController playerSearchController = new TextEditingController();
   String playerNameResult = "";
   String playerIdResult = "";
+  int playerSkillRatingGeneral = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar( //Simple AppBar addition
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/overwatch-icon.png', height: 30,
+              fit: BoxFit.contain,
+            ),
+            Container(
+              padding: const EdgeInsets.all(8.0), child: Text('STATS YOINKER', style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w400, fontSize: 17, color: Color(0xFF515151))),
+            ),
+          ],
+        ),
+      ),
       backgroundColor: Color(0xFFF0F0F0),
       body: Column(
         children: <Widget>[
@@ -76,7 +92,7 @@ class _PlayerHomePageState extends State<PlayerHomePage> {
                         child: Text('STATS YOINKER', style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w400, fontSize: 17, color: Color(0xFF515151))),
                       ),
                     ],
-                  )
+                  ),
                 ),
                 Expanded(
                   flex: 1,
@@ -101,6 +117,7 @@ class _PlayerHomePageState extends State<PlayerHomePage> {
                           // Set to empty
                           playerNameResult = "";
                           playerIdResult = "";
+                          playerSkillRatingGeneral = 0;
 
                           for(int i = 0; i < str.length; i++) {
                             if(str[i] == "#") {
@@ -116,29 +133,67 @@ class _PlayerHomePageState extends State<PlayerHomePage> {
                           }
                         });
 
-                        getPlayerData(playerNameResult, playerIdResult);
-                      }
-                    )
-                  )
-                )
+                        getPlayerData(playerNameResult, playerIdResult, playerSkillRatingGeneral);
+                        print("General Skill Rating: "+_playerSkillRatingGeneral);
+                        
+                        
+                      },
+                    ),
+                  ),
+                ),
               ],
-            )
+            ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
+            padding: EdgeInsets.symmetric(horizontal: 13),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                ClipRRect(
+                ClipRRect(//Profile Icon
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  child: Image.network('$_playerIcon', height: 65, width: 65),
+                  child: Image.network('$_playerIcon', height: 55, width: 55),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 5),
-                  child: Text('$_playerName', style: TextStyle(fontSize: 15)),
-                )
+                Container(//Battletag name container
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text(playerNameResult + '\n' + '#' + playerIdResult, style: TextStyle(fontSize: 15)),
+                  constraints: BoxConstraints.expand(width: 125, height: 50),
+                ),
               ],
-            )
-          )
+            ),
+          ),
+         Padding(
+            padding: EdgeInsets.symmetric(horizontal: 13),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                  child: Text(
+                  'SELECT YOUR ROLE'
+                ),),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 13),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                ClipRRect(//Tank Icon
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  child: Image.asset('assets/images/Role_Icons/tank-icon.png', height: 40, width: 40),
+                ),
+                ClipRRect(//DPS Icon
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  child: Image.asset('assets/images/Role_Icons/dps-icon.png', height: 40, width: 40),
+                ),
+                ClipRRect(//Support Icon
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  child: Image.asset('assets/images/Role_Icons/support-icon.png', height: 40, width: 40),
+                ),
+              ],
+            ),
+          ),
         ]
       )
     );
